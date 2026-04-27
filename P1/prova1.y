@@ -39,13 +39,14 @@ line:
     ;
 
 stmt:
-    ID ASSIGN expr
-    | ID ASSIGN sexpr
+    ID ASSIGN expr         { printf("Atribuindo numero a %s\n", $1); }
+    | ID ASSIGN sexpr      { printf("Atribuindo string a %s\n", $1); }
     | PRINT expr           { printf("%g\n", $2); }
     | PRINT sexpr          { printf("%s\n", $2); }
     | PRINT LPAR expr RPAR { printf("%g\n", $3); }
     | PRINT LPAR sexpr RPAR { printf("%s\n", $3); }
     ;
+
 
 expr:
     NUM                     { $$ = $1; }
@@ -60,7 +61,7 @@ expr:
 
 sexpr:
     STRING                  { $$ = $1; }
-    | ID                    { $$ = ""; }
+    | ID                    { $$ = "(variavel)"; }
     | CONCAT LPAR arg_list RPAR { $$ = $3; }
     | LPAR sexpr RPAR       { $$ = $2; }
     ;
@@ -76,4 +77,3 @@ arg_list:
     ;
 
 %%
-

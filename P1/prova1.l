@@ -23,10 +23,10 @@ void yyerror(const char *msg);
                     return STRING; 
                   }
 
-[a-z_][a-z0-9_]*  { 
+[a-z_][a-z0-9_]* { 
                     yylval.id = strdup(yytext); 
                     return ID; 
-                  }
+                 }
 
 "="               { return ASSIGN; }
 "+"               { return PLUS; }
