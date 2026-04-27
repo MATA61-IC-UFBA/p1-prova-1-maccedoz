@@ -38,7 +38,7 @@ void yyerror(const char *msg);
 ","               { return COMMA; }
 "\n"              { return EOL; }
 
-[ \t]             { }
+[ \t\r]           { }
 .                 { return ERROR; }
 
 %%

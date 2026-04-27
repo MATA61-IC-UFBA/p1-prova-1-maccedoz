@@ -39,12 +39,12 @@ line:
     ;
 
 stmt:
-    ID ASSIGN expr         { printf("Atribuindo numero a %s\n", $1); }
-    | ID ASSIGN sexpr      { printf("Atribuindo string a %s\n", $1); }
-    | PRINT expr           { printf("%g\n", $2); }
-    | PRINT sexpr          { printf("%s\n", $2); }
-    | PRINT LPAR expr RPAR { printf("%g\n", $3); }
-    | PRINT LPAR sexpr RPAR { printf("%s\n", $3); }
+    ID ASSIGN expr         { }
+    | ID ASSIGN sexpr      { }
+    | PRINT expr           { }
+    | PRINT sexpr          { }
+    | PRINT LPAR expr RPAR { }
+    | PRINT LPAR sexpr RPAR { }
     ;
 
 
