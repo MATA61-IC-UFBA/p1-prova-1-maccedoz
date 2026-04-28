@@ -22,58 +22,46 @@ void yyerror(const char *msg);
 %left PLUS MINUS
 %left TIMES DIV
 
-%type <val> expr
-%type <str> sexpr
-%type <str> arg_list
-
 %%
 
 program:
+    /* empty */
     | program line
     ;
 
 line:
     EOL
     | stmt EOL
-    | error EOL { yyerrok; }
     ;
 
 stmt:
-    ID ASSIGN expr         { }
-    | ID ASSIGN sexpr      { }
-    | PRINT expr           { }
-    | PRINT sexpr          { }
-    | PRINT LPAR expr RPAR { }
-    | PRINT LPAR sexpr RPAR { }
+    ID ASSIGN expr
+    | PRINT print_args
+    | PRINT LPAR print_args RPAR
+    | expr
     ;
 
+print_args:
+    expr
+    | print_args COMMA expr
+    ;
 
 expr:
-    NUM                     { $$ = $1; }
-    | ID                    { $$ = 0; }
-    | expr PLUS expr        { $$ = $1 + $3; }
-    | expr MINUS expr       { $$ = $1 - $3; }
-    | expr TIMES expr       { $$ = $1 * $3; }
-    | expr DIV expr         { $$ = ($3 != 0) ? ($1 / $3) : 0; }
-    | LPAR expr RPAR        { $$ = $2; }
-    | LENGTH LPAR sexpr RPAR { $$ = strlen($3); }
+    NUM
+    | STRING
+    | ID
+    | expr PLUS expr
+    | expr MINUS expr
+    | expr TIMES expr
+    | expr DIV expr
+    | LPAR expr RPAR
+    | LENGTH LPAR expr RPAR
+    | CONCAT LPAR concat_args RPAR
     ;
 
-sexpr:
-    STRING                  { $$ = $1; }
-    | ID                    { $$ = "(variavel)"; }
-    | CONCAT LPAR arg_list RPAR { $$ = $3; }
-    | LPAR sexpr RPAR       { $$ = $2; }
-    ;
-
-arg_list:
-    sexpr                   { $$ = $1; }
-    | arg_list COMMA sexpr  { 
-        char *res = malloc(strlen($1) + strlen($3) + 1);
-        strcpy(res, $1);
-        strcat(res, $3);
-        $$ = res;
-    }
+concat_args:
+    expr COMMA expr
+    | concat_args COMMA expr
     ;
 
 %%
